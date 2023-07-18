@@ -67,9 +67,6 @@ func (check *Checker) usage(scope *Scope) {
 	sort.Slice(unused, func(i, j int) bool {
 		return unused[i].pos < unused[j].pos
 	})
-	for _, v := range unused {
-		check.softErrorf(v, UnusedVar, "%s declared and not used", v.name)
-	}
 
 	for _, scope := range scope.children {
 		// Don't go inside function literal scopes a second time;
@@ -751,7 +748,6 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 				v.used = true // avoid usage error when checking entire function
 			}
 			if !used {
-				check.softErrorf(lhs, UnusedVar, "%s declared and not used", lhs.Name)
 			}
 		}
 
