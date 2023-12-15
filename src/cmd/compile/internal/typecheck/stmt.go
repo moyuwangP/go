@@ -563,13 +563,6 @@ func tcSwitchType(n *ir.SwitchStmt) {
 		t = nil
 	}
 
-	// We don't actually declare the type switch's guarded
-	// declaration itself. So if there are no cases, we won't
-	// notice that it went unused.
-	if v := guard.Tag; v != nil && !ir.IsBlank(v) && len(n.Cases) == 0 {
-		base.ErrorfAt(v.Pos(), errors.UnusedVar, "%v declared but not used", v.Sym())
-	}
-
 	var defCase, nilCase ir.Node
 	var ts typeSet
 	for _, ncase := range n.Cases {
